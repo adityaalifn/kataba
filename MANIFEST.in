@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include kataba *.css
+recursive-include kataba *.csv
+recursive-include kataba *.html
+recursive-include kataba *.ico
+recursive-include kataba *.js
+recursive-include kataba *.json
+recursive-include kataba *.md
+recursive-include kataba *.png
+recursive-include kataba *.py
+recursive-include kataba *.svg
+recursive-include kataba *.txt
+recursive-exclude kataba *.pyc
