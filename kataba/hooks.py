@@ -10,6 +10,7 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "info@kataba.id"
 app_license = "MIT"
+app_include_js = "assets/kataba/css/company.js"
 
 # Includes in <head>
 # ------------------
