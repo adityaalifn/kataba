@@ -1,3 +1,4 @@
+console.log('Kataba custom script')
 frappe.ui.form.on("Company", {
 	setup: function(frm) {
 		frm.set_query("umrah_sales_commission_account", function() {
