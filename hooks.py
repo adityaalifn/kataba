@@ -121,3 +121,4 @@ app_include_js = "assets/kataba/js/company.js"
 # 	"frappe.desk.doctype.event.event.get_events": "kataba.event.get_events"
 # }
 
+app_include_js = "assets/kataba/js/sales_partner.js"
