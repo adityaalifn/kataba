@@ -10,8 +10,8 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "info@kataba.id"
 app_license = "MIT"
-app_include_js = ["assets/kataba/js/company.js", "assets/kataba/js/sales_partner.js", "assets/kataba/js/sales_order.js"]
-
+app_include_js = ["assets/kataba/js/company.js", "assets/kataba/js/sales_partner.js"]
+# "assets/kataba/js/sales_order.js"]
 # Includes in <head>
 # ------------------
 
@@ -80,13 +80,16 @@ app_include_js = ["assets/kataba/js/company.js", "assets/kataba/js/sales_partner
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
+doc_events = {
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
 #	}
-# }
+	"Sales Order": {
+		"validate": "kataba.val"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
