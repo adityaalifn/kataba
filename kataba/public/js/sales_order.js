@@ -9,9 +9,8 @@ frappe.ui.form.on("Sales Order", {
     },
     
     sales_partner: function(frm) {
-        //setCommissionData(frm)
+	cur_frm.set_value("total_commission",2345000)
 	cur_frm.set_value("commission_rate",69)
-	cur_frm.set_value("total_commission",10*2333)
     }
 })
 
