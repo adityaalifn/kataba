@@ -80,16 +80,16 @@ app_include_js = ["assets/kataba/js/company.js", "assets/kataba/js/sales_partner
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
+#doc_events = {
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
 #	}
-	"Sales Order": {
-		"validate": "kataba.val"
-	}
-}
+#	"Sales Order": {
+#		"validate": "kataba.val"
+#	}
+#}
 
 # Scheduled Tasks
 # ---------------
