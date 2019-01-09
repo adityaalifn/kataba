@@ -98,7 +98,11 @@ var frm_copy, isSaving = false;
 frappe.ui.form.on("Sales Order", {
 	onload: function(frm) {
 		frm_copy = frm;
-		loadCommissionData(frm)
+		setInterval(function(){ 
+			if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
+				loadCommissionData(frm);
+			}
+		}, 50);
 	},
 	sales_partner: function(frm) {
 		loadCommissionData(frm)
