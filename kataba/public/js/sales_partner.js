@@ -3,7 +3,7 @@ function setCommissionData(frm) {
 		"method": "frappe.client.get",
 		args: {
 			"doctype": "Sales Partner Type",
-		"filters": {'sales_partner_type': frm.doc.partner_type}
+			"filters": {'sales_partner_type': frm.doc.partner_type}
 		},
 		callback: function (data) {
 			// frappe.model.set_value(doctype, name, fieldname, value)
