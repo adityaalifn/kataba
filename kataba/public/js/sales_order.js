@@ -92,17 +92,35 @@ function loadCommissionData(frm) {
 	})
 }
 
-//Make frm become a global variable
-var frm_copy, isSaving = false;
+var isSaving = false;
 
 frappe.ui.form.on("Sales Order", {
 	onload: function(frm) {
-		frm_copy = frm;
 		setInterval(function(){ 
 			if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
 				loadCommissionData(frm);
 			}
-		}, 50);
+			if (document.querySelector('.modal.fade.in') && document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)) {
+				// Hide a modal that said "Commission Rate cannot be greater than 100"
+				if (document.querySelector('.modal.fade.in .modal-body .msgprint')){
+					if (document.querySelector('.modal.fade.in .modal-body .msgprint').innerText === "Commission Rate cannot be greater than 100") {
+						document.querySelector('.modal.fade.in').style.visibility = "hidden"; // Change this with click event
+						loadCommissionData(frm);
+					}		
+				}
+			}
+			if (isSaving && document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)) {
+				if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
+					console.log("Waiting erpnext")
+				}
+				if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
+					console.log("Updating value")
+					saveTotalCommission(frm)
+					isSaving=false
+					loadCommissionData(frm)
+				}
+			}
+		}, 500);
 	},
 	sales_partner: function(frm) {
 		loadCommissionData(frm)
@@ -114,26 +132,3 @@ frappe.ui.form.on("Sales Order", {
 		isSaving = true
 	}
 })
-
-setInterval(function(){ 
-	if (document.querySelector('.modal.fade.in') && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)) {
-		// Hide a modal that said "Commission Rate cannot be greater than 100"
-		if (document.querySelector('.modal.fade.in .modal-body .msgprint')){
-			if (document.querySelector('.modal.fade.in .modal-body .msgprint').innerText === "Commission Rate cannot be greater than 100") {
-				document.querySelector('.modal.fade.in').style.visibility = "hidden"; // Change this with click event
-				loadCommissionData(frm_copy);
-			}		
-		}
-	}
-	if (isSaving && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)) {
-		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
-			console.log("Waiting erpnext")
-		}
-		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
-			console.log("Updating value")
-			saveTotalCommission(frm_copy)
-			isSaving=false
-			loadCommissionData(frm_copy)
-		}
-	}
-}, 50);
