@@ -111,14 +111,16 @@ frappe.ui.form.on("Sales Order", {
 setInterval(function(){ 
 	if (document.querySelector('.modal.fade.in') && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)) {
 		// Hide a modal that said "Commission Rate cannot be greater than 100"
-		document.querySelector('.modal.fade.in').style.visibility = "hidden";
-		loadCommissionData(frm_copy)
+		if (document.querySelector('.modal.fade.in .modal-body .msgprint').innerText === "Commission Rate cannot be greater than 100") {
+			document.querySelector('.modal.fade.in').style.visibility = "hidden";
+			loadCommissionData(frm_copy);
+		}		
 	}
 	if (isSaving && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)) {
-		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText == "Save"){
+		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
 			console.log("Waiting erpnext")
 		}
-		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText == "Submit"){
+		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
 			console.log("Updating value")
 			saveTotalCommission(frm_copy)
 			isSaving=false
