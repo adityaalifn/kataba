@@ -73,7 +73,7 @@ function loadCommissionData(frm) {
 						umrahItemCount++
 					}
 				}
-				console.log("umrahItemCount",umrahItemCount)
+// 				console.log("umrahItemCount",umrahItemCount)
 				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
 				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
 			}else if (data.message.commission_type == "Percentage") {
@@ -98,6 +98,9 @@ frappe.ui.form.on("Sales Order", {
 		loadCommissionData(frm)
 	},
 	sales_partner: function(frm) {
+		loadCommissionData(frm)
+	},	
+	items: function(frm) {
 		loadCommissionData(frm)
 	},	
 	validate: function(frm) {
