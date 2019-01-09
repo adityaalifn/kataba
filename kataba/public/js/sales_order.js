@@ -1,16 +1,111 @@
+function saveTotalCommission(frm) {
+	frappe.call({
+		"method": "frappe.client.get",
+		args: {
+			"doctype": "Sales Partner",
+			"filters": {'partner_name': frm.doc.sales_partner}
+		},
+		callback: function (data) {
+			if (data.message.commission_type == "Value") {
+				var umrahItemCount = 0;
+				for (var i=0; i < cur_frm.doc.items.length; i++) {
+					//console.log(cur_frm.doc.items[i])
+					if (cur_frm.doc.items[i].item_group == "Umrah") {
+						umrahItemCount++
+					}
+				}
+				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
+				frappe.call({ 
+					"method": "kataba.client.run_sql",
+					args: {
+						"sql": sql
+					}
+				})
+			}else if (data.message.commission_type == "Percentage") {
+				var amount = 0;
+				for (var i=0; i < cur_frm.doc.items.length; i++) {
+					//console.log(cur_frm.doc.items[i])
+					if (cur_frm.doc.items[i].item_group == "Umrah") {
+						amount+=cur_frm.doc.items[i].amount
+					}
+				}
+				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+amount*(data.message.commission_rate/100)+" where name = '"+frm.docname+"'"
+				//frm.set_value("total_commission", cur_frm.doc.items.length)
+				frappe.call({ 
+					"method": "kataba.client.run_sql",
+					args: {
+						"sql": sql
+					}
+				})
+			}
+		}
+	})
+}
+
+function formatMoney(n, c, d, t) {
+  var c = isNaN(c = Math.abs(c)) ? 2 : c,
+    d = d == undefined ? "," : d,
+    t = t == undefined ? "." : t,
+    s = n < 0 ? "-" : "",
+    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+    j = (j = i.length) > 3 ? j % 3 : 0;
+
+  return "Rp " + s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+};
+
+function loadCommissionData(frm) {
+	frappe.call({
+		"method": "frappe.client.get",
+		args: {
+			"doctype": "Sales Partner",
+			"filters": {'partner_name': frm.doc.sales_partner}
+		},
+		callback: function (data) {
+			if (data.message.commission_type == "Value") {
+				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
+				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(cur_frm.doc.items.length*data.message.commission_rate);
+			}else if (data.message.commission_type == "Percentage") {
+				var amount = 0;
+				for (var i=0; i < cur_frm.doc.items.length; i++) {
+					//console.log(cur_frm.doc.items[i])
+					amount+=cur_frm.doc.items[i].amount
+				}
+				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
+				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(amount*(data.message.commission_rate/100));
+			}
+		}
+	})
+}
+
+//Make frm become a global variable
+var frm_copy, isSaving = false;
+
 frappe.ui.form.on("Sales Order", {
-    refresh: function(frm) {
-    },
-    
-    onload: function(frm) {
-	frappe.ui.form.off("frm.doctype", ["commission_rate", "total_commission"])
-	frappe.ui.form.off("frm.doctype", "commission_rate")
-	frappe.ui.form.off("frm.doctype", "total_commission")
-    },
-    
-    sales_partner: function(frm) {
-	cur_frm.set_value("total_commission",2345000)
-	cur_frm.set_value("commission_rate",69)
-    }
+	onload: function(frm) {
+		frm_copy = frm;
+	},
+	sales_partner: function(frm) {
+		loadCommissionData(frm)
+	},	
+	validate: function(frm) {
+		isSaving = true
+	}
 })
 
+setInterval(function(){ 
+	if (document.querySelector('.modal.fade.in')) {
+		// Hide a modal that said "Commission Rate cannot be greater than 100"
+		document.querySelector('.modal.fade.in').style.visibility = "hidden";
+		loadCommissionData(frm_copy)
+	}
+	if (isSaving) {
+		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText == "Save"){
+			console.log("Waiting erpnext")
+		}
+		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText == "Submit"){
+			console.log("Updating value")
+			saveTotalCommission(frm_copy)
+			isSaving=false
+		}
+	}
+}, 50);
