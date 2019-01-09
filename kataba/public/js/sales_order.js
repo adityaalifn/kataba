@@ -15,7 +15,7 @@ function saveTotalCommission(frm) {
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
-				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
+				var sql = "update `tabSales Order` set sales_partner='"+frm.doc.sales_partner+"' commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
 				frappe.call({ 
 					"method": "kataba.client.run_sql",
 					args: {
@@ -33,7 +33,7 @@ function saveTotalCommission(frm) {
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
-				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+amount*(data.message.commission_rate/100)+" where name = '"+frm.docname+"'"
+				var sql = "update `tabSales Order` set sales_partner='"+frm.doc.sales_partner+"' commission_rate = "+data.message.commission_rate+", total_commission = "+amount*(data.message.commission_rate/100)+" where name = '"+frm.docname+"'"
 				//frm.set_value("total_commission", cur_frm.doc.items.length)
 				frappe.call({ 
 					"method": "kataba.client.run_sql",
