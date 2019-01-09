@@ -115,6 +115,9 @@ setInterval(function(){
 			document.querySelector('.modal.fade.in').style.visibility = "hidden";
 			loadCommissionData(frm_copy);
 		}		
+		if (!document.querySelector("[title='sales_partner'] .control-value").innerText === ""){
+			loadCommissionData(frm_copy);
+		}
 	}
 	if (isSaving && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)) {
 		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
