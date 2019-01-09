@@ -14,7 +14,7 @@ function saveTotalCommission(frm) {
 						umrahItemCount++
 					}
 				}
-				console.log("umrahItemCount",umrahItemCount)
+// 				console.log("umrahItemCount",umrahItemCount)
 				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
 				frappe.call({ 
 					"method": "kataba.client.run_sql",
@@ -32,7 +32,7 @@ function saveTotalCommission(frm) {
 						amount+=cur_frm.doc.items[i].amount
 					}
 				}
-				console.log("umrahItemCount",umrahItemCount)
+// 				console.log("umrahItemCount",umrahItemCount)
 				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+amount*(data.message.commission_rate/100)+" where name = '"+frm.docname+"'"
 				//frm.set_value("total_commission", cur_frm.doc.items.length)
 				frappe.call({ 
@@ -84,7 +84,7 @@ function loadCommissionData(frm) {
 						amount+=cur_frm.doc.items[i].amount
 					}
 				}
-				console.log("Percentage", formatMoney(amount*(data.message.commission_rate/100)))
+// 				console.log("Percentage", formatMoney(amount*(data.message.commission_rate/100)))
 				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
 				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(amount*(data.message.commission_rate/100));
 			}
