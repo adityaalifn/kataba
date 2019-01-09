@@ -10,10 +10,11 @@ function saveTotalCommission(frm) {
 				var umrahItemCount = 0;
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
 					//console.log(cur_frm.doc.items[i])
-					if (cur_frm.doc.items[i].item_group == "Umrah") {
+					if (cur_frm.doc.items[i].item_group === "Umrah") {
 						umrahItemCount++
 					}
 				}
+				console.log("umrahItemCount",umrahItemCount)
 				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
 				frappe.call({ 
 					"method": "kataba.client.run_sql",
@@ -23,12 +24,15 @@ function saveTotalCommission(frm) {
 				})
 			}else if (data.message.commission_type == "Percentage") {
 				var amount = 0;
+				var umrahItemCount = 0;
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
 					//console.log(cur_frm.doc.items[i])
-					if (cur_frm.doc.items[i].item_group == "Umrah") {
+					if (cur_frm.doc.items[i].item_group === "Umrah") {
+						umrahItemCount++
 						amount+=cur_frm.doc.items[i].amount
 					}
 				}
+				console.log("umrahItemCount",umrahItemCount)
 				var sql = "update `tabSales Order` set commission_rate = "+data.message.commission_rate+", total_commission = "+amount*(data.message.commission_rate/100)+" where name = '"+frm.docname+"'"
 				//frm.set_value("total_commission", cur_frm.doc.items.length)
 				frappe.call({ 
@@ -62,8 +66,16 @@ function loadCommissionData(frm) {
 		},
 		callback: function (data) {
 			if (data.message.commission_type == "Value") {
+				var umrahItemCount = 0;
+				for (var i=0; i < cur_frm.doc.items.length; i++) {
+					//console.log(cur_frm.doc.items[i])
+					if (cur_frm.doc.items[i].item_group === "Umrah") {
+						umrahItemCount++
+					}
+				}
+				console.log("umrahItemCount",umrahItemCount)
 				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
-				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(cur_frm.doc.items.length*data.message.commission_rate);
+				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
 			}else if (data.message.commission_type == "Percentage") {
 				var amount = 0;
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
@@ -83,6 +95,7 @@ var frm_copy, isSaving = false;
 frappe.ui.form.on("Sales Order", {
 	onload: function(frm) {
 		frm_copy = frm;
+		loadCommissionData(frm)
 	},
 	sales_partner: function(frm) {
 		loadCommissionData(frm)
@@ -106,6 +119,7 @@ setInterval(function(){
 			console.log("Updating value")
 			saveTotalCommission(frm_copy)
 			isSaving=false
+			loadCommissionData(frm_copy)
 		}
 	}
 }, 50);
