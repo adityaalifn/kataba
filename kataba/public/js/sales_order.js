@@ -106,7 +106,7 @@ frappe.ui.form.on("Sales Order", {
 })
 
 setInterval(function(){ 
-	if (document.querySelector('.modal.fade.in')) {
+	if (document.querySelector('.modal.fade.in') && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)) {
 		// Hide a modal that said "Commission Rate cannot be greater than 100"
 		document.querySelector('.modal.fade.in').style.visibility = "hidden";
 		loadCommissionData(frm_copy)
