@@ -20,7 +20,7 @@ function setBilledAccount(frm) {
 				frappe.call({
 					"method": "kataba.client.run_sql",
 					args: {
-						"sql": sql
+						"sql": sql2
 					}
 				})
 			}
