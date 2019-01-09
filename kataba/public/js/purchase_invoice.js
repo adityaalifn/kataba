@@ -3,7 +3,7 @@ function setBilledAccount(frm) {
 		"method": "frappe.client.get",
 		args: {
 			"doctype": "Company",
-			"filters": {'company_name': frm.doc.company_name}
+			"filters": {'name': frm.doc.supplier_name}
 		},
 		callback: function (data) {
 			console.log(data.message.company_name);
