@@ -82,6 +82,7 @@ function loadCommissionData(frm) {
 					//console.log(cur_frm.doc.items[i])
 					amount+=cur_frm.doc.items[i].amount
 				}
+				console.log("Percentage", formatMoney(amount*(data.message.commission_rate/100)))
 				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
 				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(amount*(data.message.commission_rate/100));
 			}
