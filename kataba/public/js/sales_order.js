@@ -2,22 +2,23 @@ function saveTotalCommission(frm) {
 	frappe.call({
 		"method": "frappe.client.get",
 		args: {
-			"doctype": "Sales Partner",
-			"filters": {'partner_name': frm.doc.sales_partner}
+			"doctype": "Sales Partner",// @desc: Fetching Sales Partner data
+			"filters": {'partner_name': frm.doc.sales_partner} // @desc: Get partner_name from sales partner field
 		},
 		callback: function (data) {
+			// @desc: Sales Partner have two fields: Value and Percentage
 			if (data.message.commission_type == "Value") {
 				var umrahItemCount = 0;
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
 					//console.log(cur_frm.doc.items[i])
-					if (cur_frm.doc.items[i].item_group === "Umrah") {
+					if (cur_frm.doc.items[i].item_group === "Umrah") {// @desc: Commissions are fetched from all items with item_group: Umrah
 						umrahItemCount++
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
 				var sql = "update `tabSales Order` set sales_partner='"+frm.doc.sales_partner+"', commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
 				frappe.call({ 
-					"method": "kataba.client.run_sql",
+					"method": "kataba.client.run_sql",// @desc: Calling method from kataba/kataba/client.py
 					args: {
 						"sql": sql
 					}
