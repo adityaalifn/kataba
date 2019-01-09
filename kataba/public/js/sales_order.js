@@ -109,7 +109,7 @@ frappe.ui.form.on("Sales Order", {
 })
 
 setInterval(function(){ 
-	if (!document.querySelector("[title='sales_partner'] .control-value").innerText === "" && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)){
+	if (document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)){
 		loadCommissionData(frm_copy);
 	}
 	if (document.querySelector('.modal.fade.in') && document.querySelector(`body[data-route='Form/Sales Order/${frm_copy.docname}']`)) {
