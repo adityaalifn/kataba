@@ -14,6 +14,15 @@ function setCommissionData(frm) {
 }
 
 frappe.ui.form.on("Sales Partner", {
+    setup: function(frm) {
+	frm.set_query("territory", function() {
+		return {
+			filters: [
+				["Territory","is_group", "=", 0]
+			]
+		}
+	});
+    },
     refresh: function(frm) {
         setCommissionData(frm)
     },
