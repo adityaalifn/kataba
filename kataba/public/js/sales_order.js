@@ -12,7 +12,7 @@ function saveTotalCommission(frm) {
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
 					//console.log(cur_frm.doc.items[i])
 					if (cur_frm.doc.items[i].item_group === "Umrah") {// @desc: Commissions are fetched from all items with item_group: Umrah
-						umrahItemCount++
+						umrahItemCount += cur_frm.doc.items[i].qty
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
@@ -71,7 +71,7 @@ function loadCommissionData(frm) {
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
 					//console.log(cur_frm.doc.items[i])
 					if (cur_frm.doc.items[i].item_group === "Umrah") {
-						umrahItemCount++
+						umrahItemCount += cur_frm.doc.items[i].qty
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
