@@ -117,7 +117,7 @@ frappe.ui.form.on("Sales Order", {
 })
 setInterval(function(){ 
 	if (isLoaded){
-		loadCommissionData(frm);
+		loadCommissionData(frm_copy);
 	}
 	if (isSaving && isLoaded) {
 		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
@@ -125,9 +125,9 @@ setInterval(function(){
 		}
 		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
 			console.log("Updating value")
-			saveTotalCommission(frm)
+			saveTotalCommission(frm_copy)
 			isSaving=false
-			loadCommissionData(frm)
+			loadCommissionData(frm_copy)
 		}
 	}
 	if (isLoaded && document.querySelector('.modal.fade.in')) {
