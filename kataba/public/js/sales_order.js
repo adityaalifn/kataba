@@ -66,7 +66,7 @@ function loadCommissionData(frm) {
 			"filters": {'partner_name': frm.doc.sales_partner}
 		},
 		callback: function (data) {
-			if (data.message.commission_type) {
+			if (!data.message.commission_type) {
 				frappe.msgprint("No commission type on sales partner!")
 			}
 			if (data.message.commission_type == "Value") {
