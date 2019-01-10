@@ -93,10 +93,11 @@ function loadCommissionData(frm) {
 	})
 }
 
-var isSaving = false;
+var isSaving = false, isLoaded = false;
 
 frappe.ui.form.on("Sales Order", {
 	onload: function(frm) {
+		isLoaded = true;
 		setInterval(function(){ 
 			if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
 				loadCommissionData(frm);
@@ -123,18 +124,7 @@ frappe.ui.form.on("Sales Order", {
 				}
 			}
 		}, 500);
-		setInterval(function(){ 
-			if (document.querySelector('.modal.fade.in') && document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)) {
-				// Hide a modal that said "Commission Rate cannot be greater than 100"
-				if (document.querySelector('.modal.fade.in .modal-body .msgprint')){
-					if (document.querySelector('.modal.fade.in .modal-body .msgprint').innerText === "Commission Rate cannot be greater than 100") {
-						//document.querySelector('.modal.fade.in').style.visibility = "hidden"; // Change this with click event
-						document.querySelector('.modal.fade.in .btn-modal-close').click()
-						loadCommissionData(frm);
-					}		
-				}
-			}
-		}, 50);
+		
 	},
 	sales_partner: function(frm) {
 		loadCommissionData(frm)
@@ -146,3 +136,15 @@ frappe.ui.form.on("Sales Order", {
 		isSaving = true
 	}
 })
+setInterval(function(){ 
+	if (isLoaded && document.querySelector('.modal.fade.in')) {
+		// Hide a modal that said "Commission Rate cannot be greater than 100"
+		if (document.querySelector('.modal.fade.in .modal-body .msgprint')){
+			if (document.querySelector('.modal.fade.in .modal-body .msgprint').innerText === "Commission Rate cannot be greater than 100") {
+				//document.querySelector('.modal.fade.in').style.visibility = "hidden"; // Change this with click event
+				document.querySelector('.modal.fade.in .btn-modal-close').click()
+				loadCommissionData(frm);
+			}		
+		}
+	}
+}, 50);
