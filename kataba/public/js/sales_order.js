@@ -77,6 +77,8 @@ function loadCommissionData(frm) {
 // 				console.log("umrahItemCount",umrahItemCount)
 				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
 				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
+				console.log("hasil perhitungan:", umrahItemCount*data.message.commission_rate)
+				console.log("QTY", umrahItemCount)
 			}else if (data.message.commission_type == "Percentage") {
 				var amount = 0;
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
@@ -100,24 +102,8 @@ frappe.ui.form.on("Sales Order", {
 		frm_copy = frm;
 		if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
 			isLoaded = true;
+			console.log("Kataba script loaded.")
 		}
-		setInterval(function(){ 
-			if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
-				loadCommissionData(frm);
-			}
-			if (isSaving && document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)) {
-				if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
-					console.log("Waiting erpnext")
-				}
-				if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
-					console.log("Updating value")
-					saveTotalCommission(frm)
-					isSaving=false
-					loadCommissionData(frm)
-				}
-			}
-		}, 500);
-		
 	},
 	sales_partner: function(frm) {
 		loadCommissionData(frm)
@@ -130,6 +116,20 @@ frappe.ui.form.on("Sales Order", {
 	}
 })
 setInterval(function(){ 
+	if (isLoaded){
+		loadCommissionData(frm);
+	}
+	if (isSaving && isLoaded) {
+		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
+			console.log("Waiting erpnext")
+		}
+		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
+			console.log("Updating value")
+			saveTotalCommission(frm)
+			isSaving=false
+			loadCommissionData(frm)
+		}
+	}
 	if (isLoaded && document.querySelector('.modal.fade.in')) {
 		// Hide a modal that said "Commission Rate cannot be greater than 100"
 		if (document.querySelector('.modal.fade.in .modal-body .msgprint')){
