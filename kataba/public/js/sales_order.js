@@ -67,7 +67,7 @@ function loadCommissionData(frm) {
 		},
 		callback: function (data) {
 			if (!data.message.commission_type) {
-				frappe.msgprint("No commission type on sales partner!")
+				frappe.msgprint("No commission type found in sales partner or sales partner doctype!")
 			}
 			if (data.message.commission_type == "Value") {
 				var umrahItemCount = 0;
