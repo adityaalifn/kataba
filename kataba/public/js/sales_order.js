@@ -119,10 +119,10 @@ frappe.ui.form.on("Sales Order", {
 	}
 })
 setInterval(function(){ 
-	if (isLoaded){
+	if (isLoaded && frm_copy.doc.sales_partner !== ""){
 		loadCommissionData(frm_copy);
 	}
-	if (isSaving && isLoaded) {
+	if (isSaving && isLoaded && frm_copy.doc.sales_partner !== "") {
 		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
 			console.log("Waiting erpnext")
 		}
@@ -139,7 +139,9 @@ setInterval(function(){
 			if (document.querySelector('.modal.fade.in .modal-body .msgprint').innerText === "Commission Rate cannot be greater than 100") {
 				//document.querySelector('.modal.fade.in').style.visibility = "hidden"; // Change this with click event
 				document.querySelector('.modal.fade.in .btn-modal-close').click()
-				loadCommissionData(frm_copy);
+				if (frm_copy.doc.sales_partner !== ""){
+					loadCommissionData(frm_copy);
+				}
 			}		
 		}
 	}
