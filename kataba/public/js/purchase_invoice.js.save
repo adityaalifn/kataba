@@ -1,9 +1,0 @@
-function setBilledAccount(frm) {
-	frappe.call({
-		"method": "frappe.client.get",
-		args: {
-			"doctype": "Purchase Invoice",
-			"filter
-		},
-	})
-}
