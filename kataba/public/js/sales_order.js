@@ -3,7 +3,7 @@ function saveTotalCommission(frm) {
 		"method": "frappe.client.get",
 		args: {
 			"doctype": "Sales Partner",// @desc: Fetching Sales Partner data
-			"filters": {'partner_name': frm.doc.sales_partner} // @desc: Get partner_name from sales partner field
+			"filters": {'partner_name': document.querySelector(".sales-partner-con").value} // @desc: Get partner_name from sales partner field
 		},
 		callback: function (data) {
 			// @desc: Sales Partner have two fields: Value and Percentage
@@ -63,7 +63,6 @@ function insertAfter(referenceNode, newNode) { //function to insert new HTML ele
 }
 
 function loadCommissionData(frm) {
-	console.log(frm.doc.sales_partner)
 	if (frm.doc.sales_partner !== "") {
 		frappe.call({
 			"method": "frappe.client.get",
