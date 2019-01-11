@@ -92,12 +92,12 @@ function loadCommissionData(frm) {
 					var newSalesPartnerInput = document.createElement("input");
 					newSalesPartnerInput.className = "form-control sales-partner-con";
 					insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
-					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']");
+					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
 					document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${data.message.commission_rate}</div>`; 
 					document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${formatMoney(umrahItemCount*data.message.commission_rate)}</div>`;
 				}else {
 					// Update fake textbox values
-					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']");
+					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
 					document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate;
 					document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
 				}
