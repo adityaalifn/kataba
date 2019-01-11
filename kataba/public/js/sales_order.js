@@ -140,7 +140,7 @@ setInterval(function(){
 		// Hide a modal that said "Commission Rate cannot be greater than 100"
 		if (document.querySelector('.modal.fade.in .modal-body .msgprint')){
 			if (document.querySelector('.modal.fade.in .modal-body .msgprint').innerText.includes("Commission Rate cannot be greater than 100")) {
-				console.log("From erpnext: ", document.querySelector('.modal.fade.in .modal-body .msgprint').innerText.includes("Commission Rate cannot be greater than 100"))
+				console.log("From erpnext: ", document.querySelector('.modal.fade.in .modal-body .msgprint').innerText)
 				document.querySelector('.modal.fade.in .btn-modal-close').click()
 				if (frm_copy.doc.sales_partner !== ""){
 					loadCommissionData(frm_copy);
