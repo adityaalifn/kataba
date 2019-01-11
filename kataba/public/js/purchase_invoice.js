@@ -6,9 +6,10 @@ function setBilledAccount(frm) {
 			"filters": {'name': frm.doc.supplier_name}
 		},
 		callback: function (data) {
-			console.log(data.message.umrah_stock_received_but_not_billed_invoice_account);
-			if (frm.doc.is_pnr == 1 && frm.doc.update_stock == 1 && isSupplierInChildTable(frm.doc.supplier, frm.doc.company)){
-				console.log("A");
+			console.log(data.message.supplier_link)
+			console.log(data.message.umrah_stock_received_but_not_billed_invoice_account));
+			if (frm.doc.is_pnr == 1 && frm.doc.update_stock == 1 && isSupplierInChildTable(frm.doc.supplier_name, frm.doc.company)){
+				console.log(isSupplierInChildTable(frm.doc.supplier_name, frm.doc.company);
 				var sql = "update `tabGL Entry` set account='" + data.message.umrah_stock_received_but_not_billed_invoice_account + "' where voucher_no='" + frm.doc.name + "'"
 				frappe.call({
 					"method": "kataba.client.run_sql",
@@ -29,7 +30,10 @@ function isSupplierInChildTable(supplier, parent) {
 			"filters": {'supplier': supplier, 'parent': parent}
 		},
 		callback: function (data) {
-			return true
+			if (data != null) {
+				return true;
+			}
+			return false;
 		}
 	})
 }
