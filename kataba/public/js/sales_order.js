@@ -72,8 +72,8 @@ function loadCommissionData(frm) {
         document.querySelector("[title='total_commission'] .control-value").style.display = "none";
 
         //Display Commission Input
-        document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='commission_rate'] .control-value").value}</div>`; 
-        document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='total_commission'] .control-value").value}</div>`;
+        document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='commission_rate'] .control-value").innerHTML}</div>`; 
+        document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='total_commission'] .control-value").innerHTML}</div>`;
     }
 
     // @desc: Duplicating Sales Partner Input
@@ -100,7 +100,7 @@ function loadCommissionData(frm) {
             // Update Sales Partner Input value
             document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
             // Update Commission Rate Input value
-            document.querySelector("[title='commission_rate'] .control-value-con").value = document.querySelector("[title='commission_rate'] .control-value").value;
+            document.querySelector("[title='commission_rate'] .control-value-con").value = document.querySelector("[title='commission_rate'] .control-value").innerHTML;
 
             loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
 
