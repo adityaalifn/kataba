@@ -66,11 +66,13 @@ function saveTotalCommission(frm) {
 
 function loadCommissionData(frm) {    
     // @desc: Hiding commission_rate and total_commission Input
-    if (!document.querySelector("[title='commission_rate'] .control-value-con")){
+    if (document.querySelector("[title='commission_rate'] .control-value").style.display !== "none" || document.querySelector("[title='total_commission'] .control-value").style.display !== "none") {
         //Hide the real Commission Input to avoid validation on submit
         document.querySelector("[title='commission_rate'] .control-value").style.display = "none";
         document.querySelector("[title='total_commission'] .control-value").style.display = "none";
-
+    }
+    
+    if (!document.querySelector("[title='commission_rate'] .control-value-con")){
         //Display Commission Input
         var newCommissionRateInput = document.createElement("div");
         var newTotalCommissionInput = document.createElement("div");
@@ -145,14 +147,14 @@ function loadTotalCommission(frm, partner_name) {
                         amount+=cur_frm.doc.items[i].amount;
                     }
                 }
-                
-                document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate;
 
 				if (data.message.commission_type == "Value") {
+                    document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = formatMoney(data.message.commission_rate);
 					document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
                     //console.log("hasil perhitungan:", umrahItemCount*data.message.commission_rate)
                     //console.log("QTY", umrahItemCount)
 				}else if (data.message.commission_type == "Percentage") {
+                    document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate+"%";
 					document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(amount*(data.message.commission_rate/100));
 				}
 			}
@@ -190,11 +192,11 @@ frappe.ui.form.on("Sales Order", {
 });
 
 setInterval(function(){ 
-	if (isLoaded && frm_copy.doc.sales_partner !== ""){
+	if (isLoaded){
 		loadCommissionData(frm_copy);
     }
 
-	if (isSaving && isLoaded && frm_copy.doc.sales_partner !== "") {
+	if (isSaving && isLoaded) {
 		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
 			//console.log("Waiting erpnext")
 		}
