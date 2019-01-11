@@ -58,6 +58,10 @@ function formatMoney(n, c, d, t) {
   return "Rp " + s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
 
+function insertAfter(referenceNode, newNode) { //function to insert new HTML element after an existing element in document
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
 function loadCommissionData(frm) {
 	frappe.call({
 		"method": "frappe.client.get",
@@ -82,11 +86,18 @@ function loadCommissionData(frm) {
 					//Hide the real textbox to avoid validation on submit
 					document.querySelector("[title='commission_rate'] .control-value").style.display = "none";
 					document.querySelector("[title='total_commission'] .control-value").style.display = "none";
+					document.querySelector("input[data-fieldname='sales_partner']").style.display = "none";
+
 					//Display fake textbox
+					var newSalesPartnerInput = document.createElement("input");
+					newSalesPartnerInput.className = "form-control sales-partner-con";
+					insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
+					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']");
 					document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${data.message.commission_rate}</div>`; 
 					document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${formatMoney(umrahItemCount*data.message.commission_rate)}</div>`;
 				}else {
 					// Update fake textbox values
+					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']");
 					document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate;
 					document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
 				}
