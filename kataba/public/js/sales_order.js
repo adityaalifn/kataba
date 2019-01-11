@@ -166,7 +166,8 @@ frappe.ui.form.on("Sales Order", {
 	onload: function(frm) {
 		if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
             frm_copy = frm;
-			isLoaded = true;
+            isLoaded = true;
+            loadTotalCommission(frm, cur_frm.doc.sales_partner);
 			console.log("Sales Order Section.");
 		}
 	},
@@ -181,10 +182,7 @@ frappe.ui.form.on("Sales Order", {
             isSaving = true;
             console.log("Saving")
         }
-    },
-	after_insert: function(frm) {
-		console.log("After Insert");
-	}
+    }
 });
 
 setInterval(function(){ 
