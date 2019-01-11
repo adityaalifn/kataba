@@ -72,8 +72,8 @@ function loadCommissionData(frm) {
         document.querySelector("[title='total_commission'] .control-value").style.display = "none";
 
         //Display Commission Input
-        var newCommissionRateInput = document.createElement("input");
-        var newTotalCommissionInput = document.createElement("input");
+        var newCommissionRateInput = document.createElement("div");
+        var newTotalCommissionInput = document.createElement("div");
         newCommissionRateInput.className = "control-value-con like-disabled-input";
         newTotalCommissionInput.className = "control-value-con like-disabled-input";
         insertAfter(document.querySelector("[title='commission_rate'] .control-value"), newCommissionRateInput);
