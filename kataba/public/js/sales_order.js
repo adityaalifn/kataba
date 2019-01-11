@@ -73,6 +73,33 @@ function loadCommissionData(frm) {
 			if (!data.message.commission_type) {
 				frappe.msgprint("No commission type found in sales partner or sales partner doctype!")
 			}
+			if (!document.querySelector("[title='commission_rate'] .control-value-con")){
+				//Hide the real textbox to avoid validation on submit
+				document.querySelector("[title='commission_rate'] .control-value").style.display = "none";
+				document.querySelector("[title='total_commission'] .control-value").style.display = "none";
+				document.querySelector("input[data-fieldname='sales_partner']").style.display = "none";
+
+				//Display fake textbox
+				var newSalesPartnerInput = document.createElement("input");
+				newSalesPartnerInput.className = "form-control sales-partner-con";
+				insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
+				document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
+				document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${data.message.commission_rate}</div>`; 
+				document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${formatMoney(umrahItemCount*data.message.commission_rate)}</div>`;
+			}
+			// If fake Sales Partner input is being selected
+			if (document.querySelector(".sales-partner-con") === document.activeElement) {
+				// Show Sales Partner selection
+				document.querySelector("[data-fieldname='sales_partner'] ul").removeAttribute("hidden");
+				
+				document.querySelector("[data-fieldname='sales_partner'] ul").onclick = function() {
+					// Update Sales Partner Input value
+					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
+					// When user selected sales partner, hide the selection
+				    	document.querySelector("[data-fieldname='sales_partner'] ul").setAttribute("hidden", true);
+				};
+			}
+			
 			if (data.message.commission_type == "Value") {
 				var umrahItemCount = 0;
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
@@ -82,25 +109,10 @@ function loadCommissionData(frm) {
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
-				if (!document.querySelector("[title='commission_rate'] .control-value-con")){
-					//Hide the real textbox to avoid validation on submit
-					document.querySelector("[title='commission_rate'] .control-value").style.display = "none";
-					document.querySelector("[title='total_commission'] .control-value").style.display = "none";
-					document.querySelector("input[data-fieldname='sales_partner']").style.display = "none";
 
-					//Display fake textbox
-					var newSalesPartnerInput = document.createElement("input");
-					newSalesPartnerInput.className = "form-control sales-partner-con";
-					insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
-					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
-					document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${data.message.commission_rate}</div>`; 
-					document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${formatMoney(umrahItemCount*data.message.commission_rate)}</div>`;
-				}else {
-					// Update fake textbox values
-// 					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
-					document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate;
-					document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
-				}
+				// Update fake textbox values
+				document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate;
+				document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
 // 				console.log("hasil perhitungan:", umrahItemCount*data.message.commission_rate)
 // 				console.log("QTY", umrahItemCount)
 			}else if (data.message.commission_type == "Percentage") {
@@ -112,8 +124,8 @@ function loadCommissionData(frm) {
 					}
 				}
 // 				console.log("Percentage", formatMoney(amount*(data.message.commission_rate/100)))
-				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
-				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(amount*(data.message.commission_rate/100));
+				document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate;
+				document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(amount*(data.message.commission_rate/100));
 			}
 		}
 	})
