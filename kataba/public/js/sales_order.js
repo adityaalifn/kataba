@@ -100,7 +100,7 @@ function loadCommissionData(frm) {
             // Update Sales Partner Input value
             document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
             // Update Commission Rate Input value
-            document.querySelector("[title='commission_rate'] .control-value-con").value = document.querySelector("[title='commission_rate'] .control-value").innerHTML;
+            // document.querySelector("[title='commission_rate'] .control-value-con").value = document.querySelector("[title='commission_rate'] .control-value").innerHTML;
 
             loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
 
@@ -139,13 +139,15 @@ function loadTotalCommission(frm, partner_name) {
                         amount+=cur_frm.doc.items[i].amount;
                     }
                 }
+                
+                document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = data.message.commission_rate;
 
 				if (data.message.commission_type == "Value") {
-					document.querySelector("[title='total_commission'] .control-value-con").value = formatMoney(umrahItemCount*data.message.commission_rate);
+					document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
                     //console.log("hasil perhitungan:", umrahItemCount*data.message.commission_rate)
                     //console.log("QTY", umrahItemCount)
 				}else if (data.message.commission_type == "Percentage") {
-					document.querySelector("[title='total_commission'] .control-value-con").value = formatMoney(amount*(data.message.commission_rate/100));
+					document.querySelector("[title='total_commission'] .control-value-con").innerHTML = formatMoney(amount*(data.message.commission_rate/100));
 				}
 			}
 		})
