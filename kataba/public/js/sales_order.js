@@ -95,6 +95,7 @@ function loadCommissionData(frm) {
 				document.querySelector("[data-fieldname='sales_partner'] ul").onclick = function() {
 					// Update Sales Partner Input value
 					document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
+					document.querySelector("input[data-fieldname='sales_partner']").value = "";
 					// When user selected sales partner, hide the selection
 				    	document.querySelector("[data-fieldname='sales_partner'] ul").setAttribute("hidden", true);
 				};
