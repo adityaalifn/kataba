@@ -72,8 +72,12 @@ function loadCommissionData(frm) {
         document.querySelector("[title='total_commission'] .control-value").style.display = "none";
 
         //Display Commission Input
-        document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='commission_rate'] .control-value").innerHTML}</div>`; 
-        document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='total_commission'] .control-value").innerHTML}</div>`;
+        var newCommissionRateInput = document.createElement("input");
+        var newTotalCommissionInput = document.createElement("input");
+        newCommissionRateInput.className = "control-value-con like-disabled-input";
+        newTotalCommissionInput.className = "control-value-con like-disabled-input";
+        insertAfter(document.querySelector("[title='commission_rate'] .control-value"), newCommissionRateInput);
+        insertAfter(document.querySelector("[title='total_commission'] .control-value"), newTotalCommissionInput);        
     }
 
     // @desc: Duplicating Sales Partner Input
@@ -81,9 +85,11 @@ function loadCommissionData(frm) {
         //wait until data on ul element being loaded
         if ($("[data-fieldname='sales_partner'] ul li").length > 0) { 
             document.querySelector("input[data-fieldname='sales_partner']").style.display = "none";
+            
             var newSalesPartnerInput = document.createElement("input");
             newSalesPartnerInput.className = "form-control sales-partner-con";
             insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
+
             document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
             document.querySelector(".sales-partner-con").focus();
         }
