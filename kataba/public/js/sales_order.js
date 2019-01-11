@@ -78,8 +78,11 @@ function loadCommissionData(frm) {
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
-				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
-				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
+				document.querySelector("[title='commission_rate'] .control-value").style.display = "none";//Hide the real textbox to avoid validation on submit
+				document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${data.message.commission_rate}</div>`; //Display fake textbox
+				
+				document.querySelector("[title='total_commission'] .control-value").style.display = "none";//Hide the real textbox
+				document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${formatMoney(umrahItemCount*data.message.commission_rate)}</div>`; //Display fake textbox
 // 				console.log("hasil perhitungan:", umrahItemCount*data.message.commission_rate)
 // 				console.log("QTY", umrahItemCount)
 			}else if (data.message.commission_type == "Percentage") {
