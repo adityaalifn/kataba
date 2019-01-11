@@ -63,6 +63,7 @@ function insertAfter(referenceNode, newNode) { //function to insert new HTML ele
 }
 
 function loadCommissionData(frm) {
+	console.log(frm.doc.sales_partner)
 	if (frm.doc.sales_partner !== "") {
 		frappe.call({
 			"method": "frappe.client.get",
