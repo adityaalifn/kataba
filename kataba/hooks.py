@@ -11,6 +11,7 @@ app_color = "grey"
 app_email = "info@kataba.id"
 app_license = "MIT"
 # app_include_js = ["assets/kataba/js/company.js", "assets/kataba/js/sales_partner.js", "assets/kataba/js/sales_order.js", "assets/kataba/js/purchase_invoice.js", "assets/kataba/js/purchase_receipt.js"]
+app_include_js = "assets/kataba/js/sales_order.js"
 # Includes in <head>
 # ------------------
 
