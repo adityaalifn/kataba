@@ -90,18 +90,20 @@ function loadCommissionData(frm) {
 					document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${formatMoney(umrahItemCount*data.message.commission_rate)}</div>`;
 				}
 				if (document.querySelector("input[data-fieldname='sales_partner']") === document.activeElement) {
-					if ($(document.querySelector("[data-fieldname='sales_partner'] ul")).length > 0) {
+					if ($("[data-fieldname='sales_partner'] ul li").length > 0) { //wait until data on ul element being loaded
 						document.querySelector("input[data-fieldname='sales_partner']").style.display = "none";
 						var newSalesPartnerInput = document.createElement("input");
 						newSalesPartnerInput.className = "form-control sales-partner-con";
 						insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
 						document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
+						document.querySelector(".sales-partner-con").focus();
 					}
 				}
 				// If fake Sales Partner input is being selected
 				if (document.querySelector(".sales-partner-con") === document.activeElement) {
 					// Show Sales Partner selection
 					document.querySelector("[data-fieldname='sales_partner'] ul").removeAttribute("hidden");
+					document.querySelector("[data-fieldname='sales_partner'] .link-btn").style.display = "block";
 
 					document.querySelector("[data-fieldname='sales_partner'] ul").onclick = function() {
 						// Update Sales Partner Input value
@@ -110,6 +112,9 @@ function loadCommissionData(frm) {
 						// When user selected sales partner, hide the selection
 						document.querySelector("[data-fieldname='sales_partner'] ul").setAttribute("hidden", true);
 					};
+				}else if (document.querySelector(".sales-partner-con") !== document.activeElement) {
+					document.querySelector("[data-fieldname='sales_partner'] ul").setAttribute("hidden", true);
+					document.querySelector("[data-fieldname='sales_partner'] .link-btn").style.display = "none";
 				}
 
 				if (data.message.commission_type == "Value") {
