@@ -169,9 +169,13 @@ frappe.ui.form.on("Sales Order", {
 		loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
 	},	
 	validate: function(frm) {
-		isSaving = true
+        if (document.querySelector(".sales-partner-con")){
+            isSaving = true;
+            console.log("Saving")
+        }
     },
     before_submit: function(frm) {
+        console.log("Before submit");
         frappe.model.set_value(frm.doctype, frm.docname, "sales_partner", "Sales Partner #1");
     }
 // 	after_insert: function(frm) {
