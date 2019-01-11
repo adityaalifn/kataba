@@ -72,8 +72,8 @@ function loadCommissionData(frm) {
         document.querySelector("[title='total_commission'] .control-value").style.display = "none";
 
         //Display Commission Input
-        document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${data.message.commission_rate}</div>`; 
-        document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${formatMoney(umrahItemCount*data.message.commission_rate)}</div>`;
+        document.querySelector("[title='commission_rate'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='commission_rate'] .control-value").value}</div>`; 
+        document.querySelector("[title='total_commission'] .control-value").outerHTML += `<div class="control-value-con like-disabled-input" style="">${document.querySelector("[title='total_commission'] .control-value").value}</div>`;
     }
 
     // @desc: Duplicating Sales Partner Input
