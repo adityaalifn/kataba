@@ -117,9 +117,9 @@ frappe.ui.form.on("Sales Order", {
 	validate: function(frm) {
 		isSaving = true
 	},
-	after_insert: function(frm) {
-		console.log("After Insert");
-	}
+// 	after_insert: function(frm) {
+// 		console.log("After Insert");
+// 	}
 })
 setInterval(function(){ 
 	if (isLoaded && frm_copy.doc.sales_partner !== ""){
