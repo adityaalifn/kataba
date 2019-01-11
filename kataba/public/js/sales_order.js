@@ -79,7 +79,9 @@ function loadCommissionData(frm) {
         newCommissionRateInput.className = "control-value-con like-disabled-input";
         newTotalCommissionInput.className = "control-value-con like-disabled-input";
         insertAfter(document.querySelector("[title='commission_rate'] .control-value"), newCommissionRateInput);
-        insertAfter(document.querySelector("[title='total_commission'] .control-value"), newTotalCommissionInput);        
+        insertAfter(document.querySelector("[title='total_commission'] .control-value"), newTotalCommissionInput); 
+        document.querySelector("[title='commission_rate'] .control-value-con").innerHTML = document.querySelector("[title='commission_rate'] .control-value").innerHTML;
+        document.querySelector("[title='total_commission'] .control-value-con").innerHTML = document.querySelector("[title='total_commission'] .control-value").innerHTML;
     }
 
     // @desc: Duplicating Sales Partner Input
@@ -167,7 +169,6 @@ frappe.ui.form.on("Sales Order", {
 		if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
             frm_copy = frm;
             isLoaded = true;
-            loadTotalCommission(frm, cur_frm.doc.sales_partner);
 			console.log("Sales Order Section.");
 		}
 	},
