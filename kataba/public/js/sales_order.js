@@ -80,8 +80,8 @@ function loadCommissionData(frm) {
 // 				console.log("umrahItemCount",umrahItemCount)
 				document.querySelector("[title='commission_rate'] .control-value").innerHTML = data.message.commission_rate;
 				document.querySelector("[title='total_commission'] .control-value").innerHTML = formatMoney(umrahItemCount*data.message.commission_rate);
-				console.log("hasil perhitungan:", umrahItemCount*data.message.commission_rate)
-				console.log("QTY", umrahItemCount)
+// 				console.log("hasil perhitungan:", umrahItemCount*data.message.commission_rate)
+// 				console.log("QTY", umrahItemCount)
 			}else if (data.message.commission_type == "Percentage") {
 				var amount = 0;
 				for (var i=0; i < cur_frm.doc.items.length; i++) {
@@ -116,6 +116,9 @@ frappe.ui.form.on("Sales Order", {
 	},	
 	validate: function(frm) {
 		isSaving = true
+	},
+	after_insert: function(frm) {
+		console.log("After Insert");
 	}
 })
 setInterval(function(){ 
