@@ -182,13 +182,9 @@ frappe.ui.form.on("Sales Order", {
             console.log("Saving")
         }
     },
-    before_submit: function(frm) {
-        console.log("Before submit");
-        frappe.model.set_value(frm.doctype, frm.docname, "sales_partner", "Sales Partner #1");
-    }
-// 	after_insert: function(frm) {
-// 		console.log("After Insert");
-// 	}
+	after_insert: function(frm) {
+		console.log("After Insert");
+	}
 });
 
 setInterval(function(){ 
