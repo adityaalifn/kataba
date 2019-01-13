@@ -137,10 +137,18 @@ function loadCommissionData(frm) {
             document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
             document.querySelector(".sales-partner-con").blur()
         };
-    }else if (document.querySelector(".sales-partner-con") !== document.activeElement && document.querySelector("[data-fieldname='sales_partner'] ul.con")) {
-        document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
-        document.querySelector("[data-fieldname='sales_partner'] .link-btn").style.display = "none";
-    }
+	}
+	
+	var bodyClicked = false;
+	document.querySelector("body").onclick = function() {
+		bodyClicked = true;
+	}
+	
+	if (bodyClicked) {
+		document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
+		document.querySelector("[data-fieldname='sales_partner'] .link-btn").style.display = "none";
+		bodyClicked = false;
+	}
 }
 
 function loadTotalCommission(frm, partner_name) {
