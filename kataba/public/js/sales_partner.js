@@ -7,8 +7,8 @@ function setCommissionData(frm) {
 		},
 		callback: function (data) {
 			// frappe.model.set_value(doctype, name, fieldname, value)
-			frappe.model.set_value(frm.doctype, frm.docname, "commission_type",data.message.commission_type)
-			frappe.model.set_value(frm.doctype, frm.docname, "commission_rate",data.message.commission_rate)
+			frappe.model.set_value(frm.doctype, frm.docname, "commission_type",data.message.mgs_commission_type)
+			frappe.model.set_value(frm.doctype, frm.docname, "commission_rate",data.message.mgs_commission_rate)
 		}
 	})
 }
