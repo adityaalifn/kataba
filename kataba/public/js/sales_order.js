@@ -122,17 +122,10 @@ function loadCommissionData(frm) {
         		a.onclick = () =>{
         			document.querySelector(".sales-partner-con").value = a.innerText
         		}
-        	})
-            // Update Sales Partner Input value
-            // document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
-            // Update Commission Rate Input value
-            // document.querySelector("[title='commission_rate'] .control-value-con").value = document.querySelector("[title='commission_rate'] .control-value").innerHTML;
-
+			})
+			
             loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
 
-            // Empty the original Inputs
-            document.querySelector("input[data-fieldname='sales_partner']").value = "";
-            document.querySelector("[title='commission_rate'] .control-value").value = "";
             // When user has selected sales partner, hide the selection
             document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
             document.querySelector(".sales-partner-con").blur()
@@ -188,33 +181,60 @@ function loadTotalCommission(frm, partner_name) {
 	}
 }
 
+var initialSalesPartner, hasSubmited = false;
+
 frappe.ui.form.on("Sales Order", {
 	onload: function(frm) {
 		if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
             frm_copy = frm;
 			isLoaded = true;
+			initialSalesPartner = document.querySelector("input[data-fieldname='sales_partner']").value;
 			
 			console.log("Sales Order Section.");
 		}
 	},
 	sales_partner: function(frm) {
-		loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
+		if (document.querySelector(".sales-partner-con")) {
+			loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
+		}
 	},	
 	items: function(frm) {
-		loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
+		if (document.querySelector(".sales-partner-con")) {
+			loadTotalCommission(frm, document.querySelector(".sales-partner-con").value);
+		}
 	},	
 	validate: function(frm) {
         if (document.querySelector(".sales-partner-con")){
             isSaving = true;
             console.log("Saving")
-        }
+        }else{
+			if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit") {
+				loadTotalCommission(frm, initialSalesPartner);
+				cur_frm.set_value("sales_partner", "Zikri");
+				cur_frm.set_value("commission_rate", 5);
+				cur_frm.cscript.calculate_commission();
+				//click save
+				document.querySelector(".btn.btn-primary.btn-sm.primary-action").click();
+				hasSubmited = true;
+				
+			}
+		}
     }
 });
 
 setInterval(function(){ 
 	if (isLoaded){
 		loadCommissionData(frm_copy);
-    }
+	}
+	
+	if (hasSubmited) {
+		console.log("Overriding submit");
+		var newSalesPartnerInput = document.createElement("input");
+		newSalesPartnerInput.className = "form-control sales-partner-con";
+		insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
+		document.querySelector(".sales-partner-con").value = initialSalesPartner;
+		saveTotalCommission(frm);
+	}
 
 	if (isSaving && isLoaded) {
 		// if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
