@@ -70,7 +70,7 @@ function loadCommissionData(frm) {
 	document.querySelector("input[data-fieldname='sales_partner']").onclick = function() {
 		document.querySelector("input[data-fieldname='sales_partner']").value = ""
 	}
-	
+
     // @desc: Hiding commission_rate and total_commission Input
     if (document.querySelector("[title='commission_rate'] .control-value").style.display !== "none" || document.querySelector("[title='total_commission'] .control-value").style.display !== "none") {
         //Hide the real Commission Input to avoid validation on submit
@@ -95,11 +95,15 @@ function loadCommissionData(frm) {
         //wait until data on ul element being loaded
         if ($("[data-fieldname='sales_partner'] ul li").length > 0) { 
             document.querySelector("input[data-fieldname='sales_partner']").style.display = "none";
-            
+            // @desc: create Sales Partner Input clone
             var newSalesPartnerInput = document.createElement("input");
             newSalesPartnerInput.className = "form-control sales-partner-con";
             insertAfter(document.querySelector("input[data-fieldname='sales_partner']"), newSalesPartnerInput);
-
+			// @desc: create ul clone
+			var o = document.querySelector("[data-fieldname='sales_partner'] ul");
+			var c = o.cloneNode(true)
+			document.querySelector("[data-fieldname='sales_partner'] .awesomplete").appendChild(c)
+			
             document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
             document.querySelector(".sales-partner-con").focus();
         }
@@ -108,13 +112,19 @@ function loadCommissionData(frm) {
     // @desc: Reveal List of Sales Partner element and Link button when Sales Partner Input was clicked
     if (document.querySelector(".sales-partner-con") === document.activeElement) {
         // Show Sales Partner selection
-        document.querySelector("[data-fieldname='sales_partner'] ul").removeAttribute("hidden");
+        document.querySelector("[data-fieldname='sales_partner'] ul.con").removeAttribute("hidden");
         // Show Link button
         document.querySelector("[data-fieldname='sales_partner'] .link-btn").style.display = "block";
 
-        document.querySelector("[data-fieldname='sales_partner'] ul").onclick = function() {
+        document.querySelector("[data-fieldname='sales_partner'] ul.con").onclick = function() {
+			document.querySelectorAll("[data-fieldname='sales_partner'] ul.con li").forEach((a) => {
+        		a.onclick = () =>{
+        			console.log(a)
+        			document.querySelector(".sales-partner-con").value = a.innerText
+        		}
+        	})
             // Update Sales Partner Input value
-            document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
+            // document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
             // Update Commission Rate Input value
             // document.querySelector("[title='commission_rate'] .control-value-con").value = document.querySelector("[title='commission_rate'] .control-value").innerHTML;
 
@@ -124,11 +134,11 @@ function loadCommissionData(frm) {
             document.querySelector("input[data-fieldname='sales_partner']").value = "";
             document.querySelector("[title='commission_rate'] .control-value").value = "";
             // When user has selected sales partner, hide the selection
-            document.querySelector("[data-fieldname='sales_partner'] ul").setAttribute("hidden", true);
+            document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
             document.querySelector(".sales-partner-con").blur()
         };
     }else if (document.querySelector(".sales-partner-con") !== document.activeElement) {
-        document.querySelector("[data-fieldname='sales_partner'] ul").setAttribute("hidden", true);
+        document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
         document.querySelector("[data-fieldname='sales_partner'] .link-btn").style.display = "none";
     }
 }
