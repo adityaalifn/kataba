@@ -47,12 +47,8 @@ function setCommissionData(frm) {
 }
 
 frappe.ui.form.on("Sales Order", {
-    refresh: function(frm) {
-      setCommissionData(frm)
-    },
     onload: function(frm) {
         setCommissionData(frm);
-
     },
     sales_partner: function(frm) {
         setCommissionData(frm);
