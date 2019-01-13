@@ -33,7 +33,8 @@ function saveTotalCommission(frm) {
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
-				var sql = "update `tabSales Order` set sales_partner='"+frm.doc.sales_partner+"', commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
+                // var sql = "update `tabSales Order` set sales_partner='"+frm.doc.sales_partner+"', commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
+                var sql = "update `tabSales Order` set sales_partner='"+document.querySelector(".sales-partner-con").value+"', commission_rate = "+data.message.commission_rate+", total_commission = "+umrahItemCount*data.message.commission_rate+" where name = '"+frm.docname+"'"
 				frappe.call({ 
 					"method": "kataba.client.run_sql",// @desc: Calling method from kataba/kataba/client.py
 					args: {
@@ -51,7 +52,7 @@ function saveTotalCommission(frm) {
 					}
 				}
 // 				console.log("umrahItemCount",umrahItemCount)
-				var sql = "update `tabSales Order` set sales_partner='"+frm.doc.sales_partner+"', commission_rate = "+data.message.commission_rate+", total_commission = "+amount*(data.message.commission_rate/100)+" where name = '"+frm.docname+"'"
+				var sql = "update `tabSales Order` set sales_partner='"+document.querySelector(".sales-partner-con").value+"', commission_rate = "+data.message.commission_rate+", total_commission = "+amount*(data.message.commission_rate/100)+" where name = '"+frm.docname+"'"
 				//frm.set_value("total_commission", cur_frm.doc.items.length)
 				frappe.call({ 
 					"method": "kataba.client.run_sql",
@@ -65,6 +66,11 @@ function saveTotalCommission(frm) {
 }
 
 function loadCommissionData(frm) {    
+	// @desc: Clear Sales Partner Input field when being clicked
+	document.querySelector("input[data-fieldname='sales_partner']").onclick = function() {
+		document.querySelector("input[data-fieldname='sales_partner']").value = ""
+	}
+	
     // @desc: Hiding commission_rate and total_commission Input
     if (document.querySelector("[title='commission_rate'] .control-value").style.display !== "none" || document.querySelector("[title='total_commission'] .control-value").style.display !== "none") {
         //Hide the real Commission Input to avoid validation on submit
@@ -168,7 +174,8 @@ frappe.ui.form.on("Sales Order", {
 	onload: function(frm) {
 		if (document.querySelector(`body[data-route='Form/Sales Order/${frm.docname}']`)){
             frm_copy = frm;
-            isLoaded = true;
+			isLoaded = true;
+			
 			console.log("Sales Order Section.");
 		}
 	},
