@@ -28,7 +28,8 @@ frappe.ui.form.on("Sales Partner", {
     },
 
     onload: function(frm) {
-        setCommissionData(frm)
+        setCommissionData(frm);
+	cur_frm.set_value("commission_rate", 0);
     },
 
     partner_type: function(frm) {
