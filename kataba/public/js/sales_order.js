@@ -217,14 +217,21 @@ setInterval(function(){
     }
 
 	if (isSaving && isLoaded) {
-		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
-			//console.log("Waiting erpnext")
-		}
-		if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
-			console.log("Updating value");
-			saveTotalCommission(frm_copy);
-			isSaving=false;
-			loadCommissionData(frm_copy);
+		// if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Save"){
+		// 	console.log("Waiting erpnext")
+		// }
+		// if (document.querySelector(".btn.btn-primary.btn-sm.primary-action").innerText === "Submit"){
+			
+		// }
+		if (document.querySelector(".sales-partner-con")) {
+			if (document.querySelector(".sales-partner-con").value !== "") {
+				console.log("Updating value");
+				saveTotalCommission(frm_copy);
+				isSaving=false;
+				loadCommissionData(frm_copy);
+				frappe.msgprint("Commission setting saved.");
+				location.reload();
+			}
 		}
     }
 
