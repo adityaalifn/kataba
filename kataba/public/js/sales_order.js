@@ -102,6 +102,7 @@ function loadCommissionData(frm) {
 			// @desc: create ul clone
 			var o = document.querySelector("[data-fieldname='sales_partner'] ul");
 			var c = o.cloneNode(true)
+			c.setAttribute("class", "con")
 			document.querySelector("[data-fieldname='sales_partner'] .awesomplete").appendChild(c)
 			
             document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
