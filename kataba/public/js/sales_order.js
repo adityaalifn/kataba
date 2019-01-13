@@ -104,7 +104,7 @@ function loadCommissionData(frm) {
 			var c = o.cloneNode(true)
 			c.setAttribute("class", "con")
 			document.querySelector("[data-fieldname='sales_partner'] .awesomplete").appendChild(c)
-			
+
             document.querySelector(".sales-partner-con").value = document.querySelector("input[data-fieldname='sales_partner']").value;
             document.querySelector(".sales-partner-con").focus();
         }
@@ -120,7 +120,6 @@ function loadCommissionData(frm) {
         document.querySelector("[data-fieldname='sales_partner'] ul.con").onclick = function() {
 			document.querySelectorAll("[data-fieldname='sales_partner'] ul.con li").forEach((a) => {
         		a.onclick = () =>{
-        			console.log(a)
         			document.querySelector(".sales-partner-con").value = a.innerText
         		}
         	})
@@ -138,7 +137,7 @@ function loadCommissionData(frm) {
             document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
             document.querySelector(".sales-partner-con").blur()
         };
-    }else if (document.querySelector(".sales-partner-con") !== document.activeElement) {
+    }else if (document.querySelector(".sales-partner-con") !== document.activeElement && document.querySelector("[data-fieldname='sales_partner'] ul.con")) {
         document.querySelector("[data-fieldname='sales_partner'] ul.con").setAttribute("hidden", true);
         document.querySelector("[data-fieldname='sales_partner'] .link-btn").style.display = "none";
     }
