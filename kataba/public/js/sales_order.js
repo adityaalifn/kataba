@@ -48,7 +48,9 @@ function setCommissionData(frm) {
 
 frappe.ui.form.on("Sales Order", {
     onload: function(frm) {
-        setCommissionData(frm);
+        if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
+            setCommissionData(frm);
+        }
     },
     sales_partner: function(frm) {
         setCommissionData(frm);
