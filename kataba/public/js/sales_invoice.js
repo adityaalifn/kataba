@@ -43,29 +43,12 @@ function setCommissionData(frm, item_group) {
                 total_commission = amount*(data.message.mgs_commission_rate/100)
             }
             
-            if (frm.doc.status === "Draft" || frm.doc.status === "Completed" || frm.doc.status === "Cancelled" || frm.doc.status === "Closed") {
-                // Set value to mgs_commission_rate field
-                frappe.model.set_value(frm.doctype, frm.docname, "mgs_commission_rate",data.message.mgs_commission_rate)
-                frappe.model.set_value(frm.doctype, frm.docname, "total_commission", total_commission);
-            }else{
-                overrideTotalCommission(frm, total_commission);
-            }
+            // Set value to mgs_commission_rate field
+            frappe.model.set_value(frm.doctype, frm.docname, "mgs_commission_rate",data.message.mgs_commission_rate)
+            frappe.model.set_value(frm.doctype, frm.docname, "mgs_total_commission", total_commission);
         }
     })
 }
-
-function overrideTotalCommission(frm, total_commission) {
-    frappe.call({
-        "method": "kataba.client.run_sql",
-        args: {
-            "sql": "update `tabSales Invoice` set total_commission = " + total_commission + " where name = '" + frm.docname +"'"
-        }
-    })
-    
-    isSaving = false;
-}
-
-var isSaving = false;
 
 frappe.ui.form.on("Sales Invoice", {
     onload: function(frm) {
@@ -80,11 +63,5 @@ frappe.ui.form.on("Sales Invoice", {
         if (frm.doc.sales_partner !== "") {
             getCompanyInfo(frm);
         }
-    },
-    on_submit: function(frm) {
-        if (frm.doc.sales_partner !== "") {
-            isSaving = true;
-            getCompanyInfo(frm);
-        }
     }
-})
+});
