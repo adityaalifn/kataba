@@ -77,10 +77,14 @@ frappe.ui.form.on("Sales Order", {
         getCompanyInfo(frm);
     },
     items: function(frm) {
-        getCompanyInfo(frm);
+        if (frm.doc.sales_partner !== "") {
+            getCompanyInfo(frm);
+        }
     },
     on_submit: function(frm) {
-        isSaving = true;
-        getCompanyInfo(frm);
+        if (frm.doc.sales_partner !== "") {
+            isSaving = true;
+            getCompanyInfo(frm);
+        }
     }
 })
