@@ -1,4 +1,4 @@
-function getCompanyInfo(frm) {
+function dn_getCompanyInfo(frm) {
     frappe.call({
 		"method": "frappe.client.get",
 		args: {
@@ -11,12 +11,12 @@ function getCompanyInfo(frm) {
             // Fetch umrah_item_group value
             item_group = data.message.umrah_item_group;
             
-            setCommissionData(frm, item_group);
+            dn_setCommissionData(frm, item_group);
         }
     })
 }
 
-function setCommissionData(frm, item_group) {
+function dn_setCommissionData(frm, item_group) {
     frappe.call({
         "method": "frappe.client.get",
         args: {
@@ -50,18 +50,18 @@ function setCommissionData(frm, item_group) {
     })
 }
 
-frappe.ui.form.on("Delivery Note", {
+frappe.ui.form.on("Sales Order", {
     onload: function(frm) {
         if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
-            getCompanyInfo(frm);
+            dn_getCompanyInfo(frm);
         }
     },
     sales_partner: function(frm) {
-        getCompanyInfo(frm);
+        dn_getCompanyInfo(frm);
     },
     items: function(frm) {
         if (frm.doc.sales_partner !== "") {
-            getCompanyInfo(frm);
+            dn_getCompanyInfo(frm);
         }
     }
 });
