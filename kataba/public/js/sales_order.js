@@ -1,4 +1,5 @@
 function getCompanyInfo(frm) {
+	console.log("get info")
     frappe.call({
 		"method": "frappe.client.get",
 		args: {
