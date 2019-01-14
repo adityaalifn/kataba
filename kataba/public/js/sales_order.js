@@ -1,5 +1,4 @@
 function getCompanyInfo(frm) {
-	console.log("get info")
     frappe.call({
 		"method": "frappe.client.get",
 		args: {
@@ -51,8 +50,6 @@ function setCommissionData(frm, item_group) {
     })
 }
 
-var isSaving = false;
-
 frappe.ui.form.on("Sales Order", {
     onload: function(frm) {
         if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
@@ -64,12 +61,6 @@ frappe.ui.form.on("Sales Order", {
     },
     items: function(frm) {
         if (frm.doc.sales_partner !== "") {
-            getCompanyInfo(frm);
-        }
-    },
-    on_submit: function(frm) {
-        if (frm.doc.sales_partner !== "") {
-            isSaving = true;
             getCompanyInfo(frm);
         }
     }
