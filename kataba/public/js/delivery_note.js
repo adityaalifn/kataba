@@ -1,11 +1,11 @@
 function getCompanyInfo(frm) {
     frappe.call({
-		"method": "frappe.client.get",
-		args: {
-			"doctype": "Company",
-			"filters": {'company_name': frm.doc.company}
-		},
-		callback: function (data) {
+	"method": "frappe.client.get",
+	args: {
+		"doctype": "Company",
+		"filters": {'company_name': frm.doc.company}
+	},
+	callback: function (data) {
             var item_group = "";
             
             // Fetch umrah_item_group value
