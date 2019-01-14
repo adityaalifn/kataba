@@ -1,4 +1,4 @@
-function getCompanyInfo(frm) {
+function si_getCompanyInfo(frm) {
     frappe.call({
 		"method": "frappe.client.get",
 		args: {
@@ -11,12 +11,12 @@ function getCompanyInfo(frm) {
             // Fetch umrah_item_group value
             item_group = data.message.umrah_item_group;
             
-            setCommissionData(frm, item_group);
+            si_setCommissionData(frm, item_group);
         }
     })
 }
 
-function setCommissionData(frm, item_group) {
+function si_setCommissionData(frm, item_group) {
     frappe.call({
         "method": "frappe.client.get",
         args: {
@@ -53,15 +53,15 @@ function setCommissionData(frm, item_group) {
 frappe.ui.form.on("Sales Invoice", {
     onload: function(frm) {
         if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
-            getCompanyInfo(frm);
+            si_getCompanyInfo(frm);
         }
     },
     sales_partner: function(frm) {
-        getCompanyInfo(frm);
+        si_getCompanyInfo(frm);
     },
     items: function(frm) {
         if (frm.doc.sales_partner !== "") {
-            getCompanyInfo(frm);
+            si_getCompanyInfo(frm);
         }
     }
 });
