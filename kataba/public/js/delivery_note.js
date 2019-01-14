@@ -58,7 +58,7 @@ function overrideTotalCommission(frm, total_commission) {
     frappe.call({
         "method": "kataba.client.run_sql",
         args: {
-            "sql": "update `tabSales Order` set total_commission = " + total_commission + " where name = '" + frm.docname +"'"
+            "sql": "update `tabDelivery Note` set total_commission = " + total_commission + " where name = '" + frm.docname +"'"
         }
     })
     
