@@ -1,22 +1,22 @@
-function getCompanyInfo(frm) {
+function so_getCompanyInfo(frm) {
     frappe.call({
-	"method": "frappe.client.get",
-	args: {
-		"doctype": "Company",
-		"filters": {'company_name': frm.doc.company}
-	},
-	callback: function (data) {
+		"method": "frappe.client.get",
+		args: {
+			"doctype": "Company",
+			"filters": {'company_name': frm.doc.company}
+		},
+		callback: function (data) {
             var item_group = "";
             
             // Fetch umrah_item_group value
             item_group = data.message.umrah_item_group;
             
-            setCommissionData(frm, item_group);
+            so_setCommissionData(frm, item_group);
         }
     })
 }
 
-function setCommissionData(frm, item_group) {
+function so_setCommissionData(frm, item_group) {
     frappe.call({
         "method": "frappe.client.get",
         args: {
@@ -25,6 +25,7 @@ function setCommissionData(frm, item_group) {
         },
         callback: function (data) {
             // frappe.model.set_value(doctype, name, fieldname, value)
+            
             // Counting parameters
             var total_commission = 0;
             var umrahItemCount = 0;
@@ -52,15 +53,15 @@ function setCommissionData(frm, item_group) {
 frappe.ui.form.on("Sales Order", {
     onload: function(frm) {
         if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
-            getCompanyInfo(frm);
+            so_getCompanyInfo(frm);
         }
     },
     sales_partner: function(frm) {
-        getCompanyInfo(frm);
+        so_getCompanyInfo(frm);
     },
     items: function(frm) {
         if (frm.doc.sales_partner !== "") {
-            getCompanyInfo(frm);
+            so_getCompanyInfo(frm);
         }
     }
 });
