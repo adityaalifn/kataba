@@ -43,12 +43,12 @@ function setCommissionData(frm, item_group) {
                 total_commission = amount*(data.message.mgs_commission_rate/100)
             }
             
-            if (isSaving) {
-                overrideTotalCommission(frm, total_commission);
-            }else{
+            if (frm.doc.status === "Draft" || frm.doc.status === "Completed" || frm.doc.status === "Cancelled" || frm.doc.status === "Closed") {
                 // Set value to mgs_commission_rate field
                 frappe.model.set_value(frm.doctype, frm.docname, "mgs_commission_rate",data.message.mgs_commission_rate)
                 frappe.model.set_value(frm.doctype, frm.docname, "total_commission", total_commission);
+            }else{
+                overrideTotalCommission(frm, total_commission);
             }
         }
     })
@@ -61,7 +61,7 @@ function overrideTotalCommission(frm, total_commission) {
             "sql": "update `tabSales Order` set total_commission = " + total_commission + " where name = '" + frm.docname +"'"
         }
     })
-    console.log("Total commission override was successful.");
+    
     isSaving = false;
 }
 
@@ -82,14 +82,5 @@ frappe.ui.form.on("Sales Order", {
     on_submit: function(frm) {
         isSaving = true;
         getCompanyInfo(frm);
-    }
-})
-
-
-frappe.ui.form.on("Sales Order", {
-    validate: function(frm) {
-        // if (something){
-        //      frappe.msgprint("hi") 
-        // }
     }
 })
