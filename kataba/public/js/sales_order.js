@@ -1,11 +1,11 @@
 function getCompanyInfo(frm) {
     frappe.call({
-		"method": "frappe.client.get",
-		args: {
-			"doctype": "Company",
-			"filters": {'company_name': frm.doc.company}
-		},
-		callback: function (data) {
+	"method": "frappe.client.get",
+	args: {
+		"doctype": "Company",
+		"filters": {'company_name': frm.doc.company}
+	},
+	callback: function (data) {
             var item_group = "";
             
             // Fetch umrah_item_group value
@@ -25,7 +25,6 @@ function setCommissionData(frm, item_group) {
         },
         callback: function (data) {
             // frappe.model.set_value(doctype, name, fieldname, value)
-            
             // Counting parameters
             var total_commission = 0;
             var umrahItemCount = 0;
