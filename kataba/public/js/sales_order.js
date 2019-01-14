@@ -88,3 +88,9 @@ frappe.ui.form.on("Sales Order", {
         }
     }
 })
+
+setInterval(() => {
+    if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
+        getCompanyInfo(frm);
+    }    
+}, 50);
