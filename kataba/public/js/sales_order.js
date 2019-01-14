@@ -25,8 +25,6 @@ function setCommissionData(frm, item_group) {
         },
         callback: function (data) {
             // frappe.model.set_value(doctype, name, fieldname, value)
-            // Set value to mgs_commission_rate field
-            frappe.model.set_value(frm.doctype, frm.docname, "mgs_commission_rate",data.message.mgs_commission_rate)
             
             // Counting parameters
             var total_commission = 0;
@@ -45,9 +43,12 @@ function setCommissionData(frm, item_group) {
                 total_commission = amount*(data.message.mgs_commission_rate/100)
             }
             
-            frappe.model.set_value(frm.doctype, frm.docname, "total_commission", total_commission);
             if (isSaving) {
                 overrideTotalCommission(frm, total_commission);
+            }else{
+                // Set value to mgs_commission_rate field
+                frappe.model.set_value(frm.doctype, frm.docname, "mgs_commission_rate",data.message.mgs_commission_rate)
+                frappe.model.set_value(frm.doctype, frm.docname, "total_commission", total_commission);
             }
         }
     })
@@ -83,5 +84,14 @@ frappe.ui.form.on("Sales Order", {
     on_submit: function(frm) {
         isSaving = true;
         getCompanyInfo(frm);
+    }
+})
+
+
+frappe.ui.form.on("Sales Order", {
+    validate: function(frm) {
+        // if (something){
+        //      frappe.msgprint("hi") 
+        // }
     }
 })
