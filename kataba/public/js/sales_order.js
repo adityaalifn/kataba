@@ -55,16 +55,14 @@ function setCommissionData(frm, item_group) {
 }
 
 function overrideTotalCommission(frm, total_commission) {
-    setTimeout(() => {
-        frappe.call({
-            "method": "kataba.client.run_sql",
-            args: {
-                "sql": "update `tabSales Order` set total_commission = " + total_commission + " where name = '" + frm.docname +"'"
-            }
-        })
-        console.log("Total commission override was successful.");
-        isSaving = false;
-    }, 3000);
+    frappe.call({
+        "method": "kataba.client.run_sql",
+        args: {
+            "sql": "update `tabSales Order` set total_commission = " + total_commission + " where name = '" + frm.docname +"'"
+        }
+    })
+    console.log("Total commission override was successful.");
+    isSaving = false;
 }
 
 var isSaving = false;
