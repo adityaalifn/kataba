@@ -61,15 +61,20 @@ function overrideTotalCommission(frm, total_commission) {
             "sql": "update `tabSales Order` set total_commission = " + total_commission + " where name = '" + frm.docname +"'"
         }
     })
-    
+    console.log("saved");
     isSaving = false;
 }
 
 var isSaving = false;
 
 frappe.ui.form.on("Sales Order", {
+    refresh: function (frm) {
+        if (frm.doc.sales_partner !== "") {
+            getCompanyInfo(frm);
+        }
+    },
     onload: function(frm) {
-        if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
+        if (frm.doc.sales_partner !== "") {
             getCompanyInfo(frm);
         }
     },
@@ -87,10 +92,4 @@ frappe.ui.form.on("Sales Order", {
             getCompanyInfo(frm);
         }
     }
-})
-
-setInterval(() => {
-    if (frm.doc.sales_partner !== "" && frm.doc.status === "Draft") {
-        getCompanyInfo(frm);
-    }    
-}, 50);
+});
